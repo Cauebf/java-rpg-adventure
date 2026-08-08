@@ -4,6 +4,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+        System.setProperty("sun.java2d.opengl", "true"); // Enable OpenGL support
+        
         JFrame window = new JFrame(); // Create a window object
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close the window when clicked on the X
         window.setResizable(false);
@@ -17,5 +19,6 @@ public class Main {
         window.setLocationRelativeTo(null); // Center the window on the screen
         window.setVisible(true);
         
+        gamePanel.startGameThread();
     }
 }
