@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -24,6 +25,9 @@ public class Player extends Entity {
         // Center the player on the screen
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+
+        // Set the solid area of the player
+        solidArea = new Rectangle(8, 16, 32, 32);
 
         setDefaultValues();
         getPlayerImage();
@@ -62,23 +66,39 @@ public class Player extends Entity {
     public void update() {
 
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-            
-            // Player movement
+
+            // Check which direction the player is moving
             if (keyH.upPressed) {
                 direction = "up";
-                worldY -= speed;
             }
             if (keyH.downPressed) {
                 direction = "down";
-                worldY += speed;
             }
             if (keyH.leftPressed) {
                 direction = "left";
-                worldX -= speed;
             }
             if (keyH.rightPressed) {
                 direction = "right";
-                worldX += speed;
+            }
+
+            // Check for collisions
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+
+            // If collision is false, player is free to move
+            if (!collisionOn) {
+                if (direction == "up") {
+                    worldY -= speed;
+                }
+                if (direction == "down") {
+                    worldY += speed;
+                }
+                if (direction == "left") {
+                    worldX -= speed;
+                }
+                if (direction == "right") {
+                    worldX += speed;
+                }
             }
 
             // Sprite Animation: switch sprite every 12 frames when moving

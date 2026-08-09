@@ -12,8 +12,8 @@ import main.GamePanel;
 public class TileManager {
 
     GamePanel gp;
-    Tile[] tile;
-    int mapTileNum[][];
+    public Tile[] tile;
+    public int mapTileNum[][];
 
     public TileManager(GamePanel gp) {
 
@@ -31,10 +31,10 @@ public class TileManager {
         try {
 
             tile[0] = loadTile("grass01.png");
-            tile[1] = loadTile("wall.png");
-            tile[2] = loadTile("water01.png");
+            tile[1] = loadTile("wall.png", true);
+            tile[2] = loadTile("water01.png", true);
             tile[3] = loadTile("earth.png");
-            tile[4] = loadTile("tree.png");
+            tile[4] = loadTile("tree.png", true);
             tile[5] = loadTile("road00.png");
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Error loading tile images.");
@@ -44,9 +44,14 @@ public class TileManager {
     }
 
     private Tile loadTile(String fileName) throws IOException {
+        return loadTile(fileName, false);
+    }
+
+    private Tile loadTile(String fileName, boolean collision) throws IOException {
 
         Tile tile = new Tile();
         tile.image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/tiles/" + fileName));
+        tile.collision = collision;
         return tile;
     }
 
