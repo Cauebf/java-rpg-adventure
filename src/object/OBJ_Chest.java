@@ -1,0 +1,22 @@
+package object;
+
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class OBJ_Chest extends SuperObject {
+
+    public OBJ_Chest() {
+
+        name = "Chest";
+
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/res/objects/chest.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            System.out.println("Error loading " + name + " object image.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+}
