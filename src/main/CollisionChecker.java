@@ -67,4 +67,65 @@ public class CollisionChecker {
             entity.collisionOn = true;
         }
     }
+
+    public int checkObject(Entity entity, boolean player) {
+
+        int index = 999;
+
+        // Check all objects in the game
+        for (int i = 0; i < gp.object.length; i++) {
+
+            if (gp.object[i] != null) {
+
+                // Get entity's solid area position
+                entity.solidArea.x = entity.worldX + entity.solidArea.x;
+                entity.solidArea.y = entity.worldY + entity.solidArea.y;
+
+                // Get the object's solid area position
+                gp.object[i].solidArea.x = gp.object[i].worldX + gp.object[i].solidArea.x;
+                gp.object[i].solidArea.y = gp.object[i].worldY + gp.object[i].solidArea.y;
+
+                // Move the entity's solid area in the direction the entity is moving
+                switch (entity.direction) {
+                    case "up":
+                        entity.solidArea.y -= entity.speed;
+                        break;
+
+                    case "down":
+                        entity.solidArea.y += entity.speed;
+                        break;
+
+                    case "left":
+                        entity.solidArea.x -= entity.speed;
+                        break;
+
+                    case "right":
+                        entity.solidArea.x += entity.speed;
+                        break;
+                }
+
+                // Check if the entity will collide with the object in the direction it is moving
+                if (entity.solidArea.intersects(gp.object[i].solidArea)) {
+
+                    // Stop the entity if the object has collision
+                    if (gp.object[i].collision) {
+                        entity.collisionOn = true;
+                    }
+
+                    // Return the object's index if the entity is the player
+                    if (player) {
+                        index = i;
+                    }
+                }
+
+                // Reset the collision areas to their original positions
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                gp.object[i].solidArea.x = gp.object[i].solidAreaDefaultX;
+                gp.object[i].solidArea.y = gp.object[i].solidAreaDefaultY;
+            }
+        }
+
+        return index;
+    }
 }
