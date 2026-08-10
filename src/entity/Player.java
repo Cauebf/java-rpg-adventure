@@ -16,6 +16,7 @@ public class Player extends Entity {
     KeyHandler keyH;
     public final int screenX, screenY; // Player position on the screen
     public int hasKey = 0;
+    int standCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -116,6 +117,16 @@ public class Player extends Entity {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
+            }
+        } else {
+
+            // Idle animation
+            
+            // Switch sprite every 20 frames when not moving
+            standCounter++;
+            if (standCounter > 20) {
+                spriteNum = 1;
+                standCounter = 0;
             }
         }
     }
