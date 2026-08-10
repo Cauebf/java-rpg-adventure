@@ -131,6 +131,7 @@ public class Player extends Entity {
                 case "Key":
 
                     // Increase the number of keys and remove the key from the map
+                    gp.playSE(1);
                     hasKey++;
                     gp.object[i] = null;
                     System.out.println("Key: " + hasKey);
@@ -139,6 +140,7 @@ public class Player extends Entity {
 
                     if (hasKey > 0) {
                         // Decrease the number of keys and remove the door from the map
+                        gp.playSE(3);
                         gp.object[i] = null;
                         hasKey--;
                     }
@@ -146,6 +148,7 @@ public class Player extends Entity {
                 case "Boots":
 
                     // Increase the player's speed and remove the boots from the map
+                    gp.playSE(2);
                     speed += 2;
                     gp.object[i] = null;
                     break;
