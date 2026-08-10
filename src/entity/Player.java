@@ -143,6 +143,12 @@ public class Player extends Entity {
                         hasKey--;
                     }
                     break;
+                case "Boots":
+
+                    // Increase the player's speed and remove the boots from the map
+                    speed += 2;
+                    gp.object[i] = null;
+                    break;
             }
         }
     }
