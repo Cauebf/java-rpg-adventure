@@ -15,7 +15,7 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
     public final int screenX, screenY; // Player position on the screen
-    int hasKey = 0;
+    public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -130,27 +130,39 @@ public class Player extends Entity {
             switch (objectName) {
                 case "Key":
 
-                    // Increase the number of keys and remove the key from the map
+                    // Increase the number of keys, remove the key from the map and show a message
                     gp.playSE(1);
                     hasKey++;
                     gp.object[i] = null;
-                    System.out.println("Key: " + hasKey);
+                    gp.ui.showMessage("You got a key!");
                     break;
                 case "Door":
 
                     if (hasKey > 0) {
-                        // Decrease the number of keys and remove the door from the map
+                        // Decrease the number of keys, remove the door from the map and show a message
                         gp.playSE(3);
                         gp.object[i] = null;
                         hasKey--;
+                        gp.ui.showMessage("You openned the door!");
+                    } else {
+                        gp.ui.showMessage("You need a key!");
                     }
                     break;
                 case "Boots":
 
-                    // Increase the player's speed and remove the boots from the map
+                    // Increase the player's speed, remove the boots from the map and show a message
                     gp.playSE(2);
                     speed += 2;
                     gp.object[i] = null;
+                    gp.ui.showMessage("Speed up!");
+                    break;
+
+                case "Chest":
+
+                    // End the game
+                    gp.ui.gameFinished = true;
+                    gp.stopMusic();
+                    gp.playSE(4);
                     break;
             }
         }
