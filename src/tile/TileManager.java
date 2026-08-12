@@ -21,7 +21,7 @@ public class TileManager {
 
         this.gp = gp;
 
-        tile = new Tile[10];
+        tile = new Tile[50];
         mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
 
         getTileImage();
@@ -30,12 +30,33 @@ public class TileManager {
 
     public void getTileImage() {
 
-        setup(0, "grass01.png", false);
-        setup(1, "wall.png", true);
-        setup(2, "water01.png", true);
-        setup(3, "earth.png", false);
-        setup(4, "tree.png", true);
-        setup(5, "road00.png", false);
+         // PLACEHOLDER
+        int indexes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        for(int i = 0; i < indexes.length; i++){
+            setup(indexes[i], "grass00", false);
+        }
+        
+        // GRASS
+        setup(10, "grass00", false);
+        setup(11, "grass01", false);
+
+        // WATER
+        indexes = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25};
+        for(int i = 0; i < indexes.length; i++){
+            String waterIndex = "water" + String.format("%02d", i);
+            setup(indexes[i], waterIndex, true);
+        }
+
+        // ROAD
+        indexes = new int[]{26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
+        for(int i = 0; i < indexes.length; i++){
+            String roadIndex = "road" + String.format("%02d", i);
+            setup(indexes[i], roadIndex, false);
+        }
+
+        setup(39, "earth", false);
+        setup(40, "wall", true);
+        setup(41,"tree", true);
     }
 
     public void setup(int index, String imagePath, boolean collision) {
@@ -44,7 +65,7 @@ public class TileManager {
 
         try {
             tile[index] = new Tile();
-            tile[index].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/tiles/" + imagePath)); // Load the tile image
+            tile[index].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/tiles/" + imagePath + ".png")); // Load the tile image
             tile[index].image = tool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize); // Scale the tile image (improves performance instead of scaling during the game loop)
             tile[index].collision = collision;
         } catch (IOException | IllegalArgumentException e) {
