@@ -1,11 +1,12 @@
 package object;
 
+import main.GamePanel;
+
 public class OBJ_Chest extends SuperObject {
 
-    public OBJ_Chest() {
+    public OBJ_Chest(GamePanel gp) {
 
         name = "Chest";
-        loadImage("chest.png");
+        setupImage("chest.png", gp);
     }
-
 }

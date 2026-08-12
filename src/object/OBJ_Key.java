@@ -1,10 +1,12 @@
 package object;
 
+import main.GamePanel;
+
 public class OBJ_Key extends SuperObject {
 
-    public OBJ_Key() {
+    public OBJ_Key(GamePanel gp) {
 
         name = "Key";
-        loadImage("key.png");
+        setupImage("key.png", gp);
     }
 }

@@ -1,11 +1,12 @@
 package object;
 
+import main.GamePanel;
+
 public class OBJ_Boots extends SuperObject {
 
-    public OBJ_Boots() {
+    public OBJ_Boots(GamePanel gp) {
 
         name = "Boots";
-        loadImage("boots.png");
+        setupImage("boots.png", gp);
     }
-
 }

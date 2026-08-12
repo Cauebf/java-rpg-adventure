@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 public class Player extends Entity {
 
@@ -46,24 +47,32 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
 
+        up1 = setup("player_up_1.png");
+        up2 = setup("player_up_2.png");
+        down1 = setup("player_down_1.png");
+        down2 = setup("player_down_2.png");
+        left1 = setup("player_left_1.png");
+        left2 = setup("player_left_2.png");
+        right1 = setup("player_right_1.png");
+        right2 = setup("player_right_2.png");
+    }
+
+    public BufferedImage setup(String imagePath) {
+
+        UtilityTool tool = new UtilityTool();
+        BufferedImage image = null;
+
         try {
-            up1 = loadImage("player_up_1.png");
-            up2 = loadImage("player_up_2.png");
-            down1 = loadImage("player_down_1.png");
-            down2 = loadImage("player_down_2.png");
-            left1 = loadImage("player_left_1.png");
-            left2 = loadImage("player_left_2.png");
-            right1 = loadImage("player_right_1.png");
-            right2 = loadImage("player_right_2.png");
+            image = ImageIO
+                    .read(getClass().getClassLoader().getResourceAsStream("res/player/" + imagePath));
+            image = tool.scaleImage(image, gp.tileSize, gp.tileSize); // Scale the player image (improves performance instead of scaling during the game loop)
         } catch (IOException | IllegalArgumentException e) {
-            System.out.println("Error loading player images.");
+            System.out.println("Error loading player image: " + imagePath);
             e.printStackTrace();
             System.exit(1);
         }
-    }
 
-    private BufferedImage loadImage(String fileName) throws IOException {
-        return ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/player/" + fileName));
+        return image;
     }
 
     public void update() {
@@ -121,7 +130,7 @@ public class Player extends Entity {
         } else {
 
             // Idle animation
-            
+
             // Switch sprite every 20 frames when not moving
             standCounter++;
             if (standCounter > 20) {
@@ -219,6 +228,6 @@ public class Player extends Entity {
         }
 
         // Draw the player
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 }

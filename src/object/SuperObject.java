@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 public class SuperObject {
 
@@ -18,11 +19,13 @@ public class SuperObject {
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
+    UtilityTool tool = new UtilityTool();
 
-    protected void loadImage(String fileName) {
+    protected void setupImage(String imagePath, GamePanel gp) {
 
         try {
-            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/objects/" + fileName));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/objects/" + imagePath));
+            image = tool.scaleImage(image, gp.tileSize, gp.tileSize); // Scale the object image (improves performance instead of scaling during the game loop)
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Error loading " + name + " object image.");
             e.printStackTrace();
@@ -42,7 +45,7 @@ public class SuperObject {
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             // Draw the object on the screen
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image, screenX, screenY, null);
         }
     }
 }

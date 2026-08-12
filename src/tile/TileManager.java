@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.awt.Graphics2D;
+
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 public class TileManager {
 
@@ -28,31 +30,28 @@ public class TileManager {
 
     public void getTileImage() {
 
-        try {
+        setup(0, "grass01.png", false);
+        setup(1, "wall.png", true);
+        setup(2, "water01.png", true);
+        setup(3, "earth.png", false);
+        setup(4, "tree.png", true);
+        setup(5, "road00.png", false);
+    }
 
-            tile[0] = loadTile("grass01.png");
-            tile[1] = loadTile("wall.png", true);
-            tile[2] = loadTile("water01.png", true);
-            tile[3] = loadTile("earth.png");
-            tile[4] = loadTile("tree.png", true);
-            tile[5] = loadTile("road00.png");
+    public void setup(int index, String imagePath, boolean collision) {
+
+        UtilityTool tool = new UtilityTool();
+
+        try {
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/tiles/" + imagePath)); // Load the tile image
+            tile[index].image = tool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize); // Scale the tile image (improves performance instead of scaling during the game loop)
+            tile[index].collision = collision;
         } catch (IOException | IllegalArgumentException e) {
-            System.out.println("Error loading tile images.");
+            System.out.println("Error loading tile image: " + imagePath);
             e.printStackTrace();
             System.exit(1);
         }
-    }
-
-    private Tile loadTile(String fileName) throws IOException {
-        return loadTile(fileName, false);
-    }
-
-    private Tile loadTile(String fileName, boolean collision) throws IOException {
-
-        Tile tile = new Tile();
-        tile.image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/tiles/" + fileName));
-        tile.collision = collision;
-        return tile;
     }
 
     public void loadMap(String fileName) {
@@ -117,7 +116,7 @@ public class TileManager {
                     worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
                 // Draw the tile on the screen
-                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(tile[tileNum].image, screenX, screenY, null);
             }
 
             worldCol++;
