@@ -10,7 +10,7 @@ public class Main {
         JFrame window = new JFrame(); // Create a window object
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close the window when clicked on the X
         window.setResizable(false);
-        window.setTitle("The Legend of Mai'qou");
+        window.setTitle("Blue Boy Adventure");
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);

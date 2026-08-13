@@ -63,7 +63,7 @@ public class UI {
 
         // TITLE NAME
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 60F));
-        String text = "The Legend of Mai'qou";
+        String text = "Blue Boy Adventure";
         int x = getXforCenteredText(text);
         int y = gp.tileSize * 3;
 
