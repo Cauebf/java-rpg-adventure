@@ -3,24 +3,19 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
-import main.UtilityTool;
 
 public class Player extends Entity {
 
-    GamePanel gp;
     KeyHandler keyH;
     public final int screenX, screenY; // Player position on the screen
     int standCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         // Center the player on the screen
@@ -46,32 +41,14 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
 
-        up1 = setup("player_up_1.png");
-        up2 = setup("player_up_2.png");
-        down1 = setup("player_down_1.png");
-        down2 = setup("player_down_2.png");
-        left1 = setup("player_left_1.png");
-        left2 = setup("player_left_2.png");
-        right1 = setup("player_right_1.png");
-        right2 = setup("player_right_2.png");
-    }
-
-    public BufferedImage setup(String imagePath) {
-
-        UtilityTool tool = new UtilityTool();
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO
-                    .read(getClass().getClassLoader().getResourceAsStream("res/player/" + imagePath));
-            image = tool.scaleImage(image, gp.tileSize, gp.tileSize); // Scale the player image (improves performance instead of scaling during the game loop)
-        } catch (IOException | IllegalArgumentException e) {
-            System.out.println("Error loading player image: " + imagePath);
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        return image;
+        up1 = setup("/player/player_up_1.png");
+        up2 = setup("/player/player_up_2.png");
+        down1 = setup("/player/player_down_1.png");
+        down2 = setup("/player/player_down_2.png");
+        left1 = setup("/player/player_left_1.png");
+        left2 = setup("/player/player_left_2.png");
+        right1 = setup("/player/player_right_1.png");
+        right2 = setup("/player/player_right_2.png");
     }
 
     public void update() {
@@ -99,6 +76,10 @@ public class Player extends Entity {
             // Check object collision
             int objectIndex = gp.collisionChecker.checkObject(this, true);
             pickUpObject(objectIndex);
+
+            // Check NPC collision
+            int npcIndex = gp.collisionChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
 
             // If collision is false, player is free to move
             if (!collisionOn) {
@@ -144,7 +125,14 @@ public class Player extends Entity {
         // 999 means that no object was found
         if (i != 999) {
 
-            
+        }
+    }
+
+    public void interactNPC(int i) {
+
+        // 999 means that no NPC was found
+        if (i != 999) {
+            System.out.println("Interacting with NPC: " + i);
         }
     }
 
