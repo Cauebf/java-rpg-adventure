@@ -132,8 +132,15 @@ public class Player extends Entity {
 
         // 999 means that no NPC was found
         if (i != 999) {
-            System.out.println("Interacting with NPC: " + i);
+
+            // If the player presses enter, the NPC will speak
+            if (gp.keyH.enterPressed) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
         }
+
+        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics2D g2) {
